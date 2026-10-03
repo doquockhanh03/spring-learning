@@ -12,4 +12,8 @@ public interface ProductOfferingService {
     List<ProductOfferings> getByName(String name);
 
     List<ProductOfferings> getByNameAndColor(String name, String color);
+
+    ProductOfferings createProduct(ProductOfferings productOfferings);
+
+    ProductOfferings updateProduct(Long id, ProductOfferings productOfferings);
 }

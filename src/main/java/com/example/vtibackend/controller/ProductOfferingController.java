@@ -4,8 +4,7 @@ import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.service.impl.ProductOfferingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,5 +37,15 @@ public class ProductOfferingController {
         name = "product_1";
         color = "red_1";
         return ResponseEntity.ok(productOfferingServiceimpl.getByNameAndColor(name, color));
+    }
+
+    @PostMapping("/product")
+    public ResponseEntity<ProductOfferings> create(@RequestBody ProductOfferings productOfferings){
+        return ResponseEntity.ok(productOfferingServiceimpl.createProduct(productOfferings));
+    }
+
+    @PutMapping("/product/{id}")
+    public ResponseEntity<ProductOfferings> update(@PathVariable Long id, @RequestBody ProductOfferings productOfferings){
+        return ResponseEntity.ok(productOfferingServiceimpl.updateProduct(id, productOfferings));
     }
 }

@@ -1,14 +1,12 @@
 package com.example.vtibackend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.example.vtibackend.common.Status;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.context.annotation.Primary;
+
 
 import java.io.Serializable;
 
@@ -21,6 +19,7 @@ import java.io.Serializable;
 public class ProductOfferings implements Serializable {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
@@ -31,4 +30,8 @@ public class ProductOfferings implements Serializable {
 
     @Column(name = "color")
     private String color;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

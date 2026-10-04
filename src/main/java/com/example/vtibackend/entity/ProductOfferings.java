@@ -34,4 +34,8 @@ public class ProductOfferings implements Serializable {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "detail_id", referencedColumnName = "id")
+    private ProductDetails productDetails;
 }

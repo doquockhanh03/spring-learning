@@ -1,10 +1,14 @@
 package com.example.vtibackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -12,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "product_details")
-public class ProductDetails {
+public class ProductDetails implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -36,4 +40,14 @@ public class ProductDetails {
 
     @Column(name = "video")
     String video;
+
+    @OneToMany
+    @JsonIgnore
+    private List<ProductOfferingDetail> productOfferingDetails;
+
+//    @OneToMany(mappedBy = "productDetails")
+//    List<ProductOfferings> productOfferings;
+
+//    @OneToOne(mappedBy = "productDetails")
+//    private ProductOfferings productOfferings;
 }

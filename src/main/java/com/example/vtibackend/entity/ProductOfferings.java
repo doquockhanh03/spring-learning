@@ -1,6 +1,7 @@
 package com.example.vtibackend.entity;
 
 import com.example.vtibackend.common.Status;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "product_offerings")
@@ -35,7 +37,14 @@ public class ProductOfferings implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "detail_id", referencedColumnName = "id")
-    private ProductDetails productDetails;
+    @OneToMany(mappedBy = "productOfferings")
+    private List<ProductOfferingDetail> productOfferingDetails;
+
+
+//    @OneToOne(fetch = FetchType.LAZY)
+
+//    @ManyToOne
+//    @JoinColumn(name = "detail_id", referencedColumnName = "id")
+//    @JsonIgnore
+//    private ProductDetails productDetails;
 }

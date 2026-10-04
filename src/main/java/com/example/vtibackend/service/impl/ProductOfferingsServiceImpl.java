@@ -1,20 +1,19 @@
 package com.example.vtibackend.service.impl;
 
 import com.example.vtibackend.entity.ProductOfferings;
-import com.example.vtibackend.repository.ProductOfferingRepo;
-import com.example.vtibackend.service.ProductOfferingService;
+import com.example.vtibackend.repository.ProductOfferingsRepo;
+import com.example.vtibackend.service.ProductOfferingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductOfferingServiceImpl implements ProductOfferingService {
+public class ProductOfferingsServiceImpl implements ProductOfferingsService {
 
     @Autowired
-    private ProductOfferingRepo productOfferingRepo;
+    private ProductOfferingsRepo productOfferingRepo;
 
     @Override
     public ProductOfferings getById(Long id) {
@@ -64,5 +63,10 @@ public class ProductOfferingServiceImpl implements ProductOfferingService {
             }
             productOfferings.setId(id);
         return productOfferingRepo.save(productOfferings);
+    }
+
+    @Override
+    public List<ProductOfferings> getByDetailId(Long id) {
+        return productOfferingRepo.findByDetailId(id);
     }
 }

@@ -1,7 +1,8 @@
 package com.example.vtibackend.controller;
 
 import com.example.vtibackend.entity.ProductOfferings;
-import com.example.vtibackend.service.impl.ProductOfferingServiceImpl;
+import com.example.vtibackend.service.impl.ProductOfferingsServiceImpl;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +10,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class ProductOfferingController {
+public class ProductOfferingsController {
 
     @Autowired
-    private ProductOfferingServiceImpl productOfferingServiceimpl;
+    private ProductOfferingsServiceImpl productOfferingServiceimpl;
 
     @GetMapping("/product")
     public ResponseEntity<ProductOfferings> getById(Long id){
-        id = 1l;
+        id = 2l;
         ProductOfferings productOfferings = productOfferingServiceimpl.getById(id);
         return ResponseEntity.ok(productOfferings);
     }
@@ -47,5 +48,10 @@ public class ProductOfferingController {
     @PutMapping("/product/{id}")
     public ResponseEntity<ProductOfferings> update(@PathVariable Long id, @RequestBody ProductOfferings productOfferings){
         return ResponseEntity.ok(productOfferingServiceimpl.updateProduct(id, productOfferings));
+    }
+
+    @GetMapping("/product-by-detail/{id}")
+    public ResponseEntity<List<ProductOfferings>> getByDetailId(@PathVariable Long id){
+        return ResponseEntity.ok(productOfferingServiceimpl.getByDetailId(id));
     }
 }

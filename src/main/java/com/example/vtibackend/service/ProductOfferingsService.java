@@ -4,7 +4,7 @@ import com.example.vtibackend.entity.ProductOfferings;
 
 import java.util.List;
 
-public interface ProductOfferingService {
+public interface ProductOfferingsService {
     ProductOfferings getById(Long id);
 
     List<ProductOfferings> getAll();
@@ -16,4 +16,6 @@ public interface ProductOfferingService {
     ProductOfferings createProduct(ProductOfferings productOfferings);
 
     ProductOfferings updateProduct(Long id, ProductOfferings productOfferings);
+
+    List<ProductOfferings> getByDetailId(Long id);
 }

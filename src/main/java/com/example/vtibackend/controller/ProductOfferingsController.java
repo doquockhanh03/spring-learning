@@ -1,5 +1,6 @@
 package com.example.vtibackend.controller;
 
+import com.example.vtibackend.dto.request.CreateProductOfferingReq;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.service.impl.ProductOfferingsServiceImpl;
 import lombok.Getter;
@@ -40,11 +41,6 @@ public class ProductOfferingsController {
         return ResponseEntity.ok(productOfferingServiceimpl.getByNameAndColor(name, color));
     }
 
-    @PostMapping("/product")
-    public ResponseEntity<ProductOfferings> create(@RequestBody ProductOfferings productOfferings){
-        return ResponseEntity.ok(productOfferingServiceimpl.createProduct(productOfferings));
-    }
-
     @PutMapping("/product/{id}")
     public ResponseEntity<ProductOfferings> update(@PathVariable Long id, @RequestBody ProductOfferings productOfferings){
         return ResponseEntity.ok(productOfferingServiceimpl.updateProduct(id, productOfferings));
@@ -53,5 +49,15 @@ public class ProductOfferingsController {
     @GetMapping("/product-by-detail/{id}")
     public ResponseEntity<List<ProductOfferings>> getByDetailId(@PathVariable Long id){
         return ResponseEntity.ok(productOfferingServiceimpl.getByDetailId(id));
+    }
+
+    @PostMapping("/product")
+    public ResponseEntity<ProductOfferings> create(@RequestBody ProductOfferings productOfferings){
+        return ResponseEntity.ok(productOfferingServiceimpl.createProduct(productOfferings));
+    }
+
+    @PostMapping("/productDto")
+    public ResponseEntity<ProductOfferings> createDto(@RequestBody CreateProductOfferingReq request){
+        return ResponseEntity.ok(productOfferingServiceimpl.createProductDto(request));
     }
 }

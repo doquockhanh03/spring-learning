@@ -1,5 +1,7 @@
 package com.example.vtibackend.service;
 
+import com.example.vtibackend.dto.request.CreateProductOfferingReq;
+import com.example.vtibackend.entity.ProductOfferingDetail;
 import com.example.vtibackend.entity.ProductOfferings;
 
 import java.util.List;
@@ -18,4 +20,6 @@ public interface ProductOfferingsService {
     ProductOfferings updateProduct(Long id, ProductOfferings productOfferings);
 
     List<ProductOfferings> getByDetailId(Long id);
+
+    ProductOfferings createProductDto(CreateProductOfferingReq request);
 }

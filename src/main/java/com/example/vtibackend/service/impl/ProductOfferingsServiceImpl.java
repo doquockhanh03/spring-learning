@@ -1,5 +1,7 @@
 package com.example.vtibackend.service.impl;
 
+import com.example.vtibackend.common.Status;
+import com.example.vtibackend.dto.request.CreateProductOfferingReq;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.repository.ProductOfferingsRepo;
 import com.example.vtibackend.service.ProductOfferingsService;
@@ -69,4 +71,22 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
     public List<ProductOfferings> getByDetailId(Long id) {
         return productOfferingRepo.findByDetailId(id);
     }
+
+    @Override
+    public ProductOfferings createProductDto(CreateProductOfferingReq request) {
+        if(request.getName().isEmpty() || request.getColor().isEmpty() || request.getPrice() == null){
+            throw new RuntimeException("Khong duoc de trong du lieu!");
+        }
+
+        ProductOfferings productOfferings = new ProductOfferings();
+
+        productOfferings.setName(request.getName());
+        productOfferings.setColor(request.getColor());
+        productOfferings.setPrice(request.getPrice());
+        productOfferings.setStatus(Status.ACTIVE);
+
+        return productOfferingRepo.save(productOfferings);
+    }
+
+
 }

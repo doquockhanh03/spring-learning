@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductOfferingDetailServiceImpl implements ProductOfferingDetailService {
@@ -34,37 +32,52 @@ public class ProductOfferingDetailServiceImpl implements ProductOfferingDetailSe
     @Override
     public ProductOfferings assignProductDetail(AssignProductDetailReq request) {
         if(request.getProductOfferingIds() == null){
-            throw new RuntimeException("Khong duoc de trong!");
+            throw new RuntimeException("ProductOffering id is null");
         }
-
         if(request.getProductDetailIds() == null || request.getProductDetailIds().isEmpty()){
-            throw new RuntimeException("Khong duoc trong du lieu!");
+            throw new RuntimeException("ProductDetail id are null or empty");
         }
 
-        Optional<ProductOfferings> productOfferingsOptinal = productOfferingsRepo.findById(request.getProductOfferingIds());
-        if(productOfferingsOptinal.isEmpty()){
-            throw new RuntimeException("productOffering not exist!");
+        //check duplicate input data
+        Set<Long> productDetailsIds = new LinkedHashSet<>(request.getProductDetailIds());
+
+        Optional<ProductOfferings> productOfferingsOptional = productOfferingsRepo.findById(request.getProductOfferingIds());
+        if(productOfferingsOptional.isEmpty()){
+            throw new RuntimeException("ProductOffering id not exist");
         }
 
-        ProductOfferings productOfferings1 = productOfferingsOptinal.get();
+        ProductOfferings productOfferings = productOfferingsOptional.get();
 
-        List<ProductDetails> productDetailsList = productDetailsRepo.findAllById(request.getProductDetailIds());
-        if(productDetailsList.isEmpty()){
-            throw new RuntimeException("productDetail not exist!");
+        List<ProductDetails> productDetails = productDetailsRepo.findAllById(productDetailsIds);
+        if(productDetails.isEmpty()){
+            throw new RuntimeException("ProductDetail id not exist");
         }
 
         List<ProductOfferingDetail> productOfferingDetails = new ArrayList<>();
+        List<ProductOfferingDetail> productOfferingDetailExist = productOfferingDetailRepo.findByProductOfferingsId(request.getProductOfferingIds());
 
-        for(int i = 0; i < productDetailsList.size(); i++){
+        for(int i = 0; i < productDetails.size(); i++){
             ProductOfferingDetail productOfferingDetail = new ProductOfferingDetail();
-            productOfferingDetail.setProductOfferings(productOfferingsOptinal.get());
-            productOfferingDetail.setProductDetails(productDetailsList.get(i));
 
-            productOfferingDetails.add(productOfferingDetail);
+            boolean checkExist = false;
+
+            for(int j = 0; j < productOfferingDetailExist.size(); j++){
+                ProductOfferingDetail existing = productOfferingDetailExist.get(j);
+
+                if(existing.getProductDetails().getId().equals(productDetails.get(i).getId())){
+                    checkExist = true;
+                    break;
+                }
+            }
+            if(!checkExist){
+                productOfferingDetail.setProductOfferings(productOfferingsOptional.get());
+                productOfferingDetail.setProductDetails(productDetails.get(i));
+
+                productOfferingDetails.add(productOfferingDetail);
+            }
         }
-
         productOfferingDetailRepo.saveAll(productOfferingDetails);
-        productOfferings1.setProductOfferingDetails(productOfferingDetails);
-        return productOfferings1;
+        productOfferings.setProductOfferingDetails(productOfferingDetails);
+        return productOfferings;
     }
 }

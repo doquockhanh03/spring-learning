@@ -22,4 +22,6 @@ public interface ProductOfferingsService {
     List<ProductOfferings> getByDetailId(Long id);
 
     ProductOfferings createProductDto(CreateProductOfferingReq request);
+
+    List<ProductOfferings> filter(String name, Long minPrice, Long maxPrice, String color, String status);
 }

@@ -60,4 +60,15 @@ public class ProductOfferingsController {
     public ResponseEntity<ProductOfferings> createDto(@RequestBody CreateProductOfferingReq request){
         return ResponseEntity.ok(productOfferingServiceimpl.createProductDto(request));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<ProductOfferings>> filter(@RequestParam(name = "name", required = false) String name,
+                                                         @RequestParam(name = "minPrice", required = false) Long minPrice,
+                                                         @RequestParam(name = "maxPrice", required = false) Long maxPrice,
+                                                         @RequestParam(name = "color", required = false) String color,
+                                                         @RequestParam(name = "status", required = false) String status){
+
+        List<ProductOfferings> productOfferings = productOfferingServiceimpl.filter(name, minPrice, maxPrice, color, status);
+        return ResponseEntity.ok(productOfferings);
+    }
 }

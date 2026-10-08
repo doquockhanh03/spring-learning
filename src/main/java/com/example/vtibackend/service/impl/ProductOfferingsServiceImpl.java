@@ -5,9 +5,15 @@ import com.example.vtibackend.dto.request.CreateProductOfferingReq;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.repository.ProductOfferingsRepo;
 import com.example.vtibackend.service.ProductOfferingsService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +22,9 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
 
     @Autowired
     private ProductOfferingsRepo productOfferingRepo;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public ProductOfferings getById(Long id) {
@@ -88,5 +97,42 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
         return productOfferingRepo.save(productOfferings);
     }
 
+    public List<ProductOfferings> filter(String name, Long minPrice, Long maxPrice, String color, String status) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<ProductOfferings> query = criteriaBuilder.createQuery(ProductOfferings.class);
+
+        Root<ProductOfferings> root = query.from(ProductOfferings.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if(name != null && !name.isEmpty()){
+            Predicate predicate = criteriaBuilder.like(root.get("name"), "%" + name + "%");
+            predicates.add(predicate);
+        }
+
+        if(minPrice != null){
+            Predicate predicate = criteriaBuilder.greaterThanOrEqualTo(root.get("price"), minPrice);
+            predicates.add(predicate);
+        }
+
+        if(maxPrice != null){
+            Predicate predicate = criteriaBuilder.lessThanOrEqualTo(root.get("price"), maxPrice);
+            predicates.add(predicate);
+        }
+
+        if(color != null && !color.isEmpty()){
+            Predicate predicate = criteriaBuilder.like(root.get("color"), "%" + color + "%");
+            predicates.add(predicate);
+        }
+
+        if(status != null && !status.isEmpty()){
+            Predicate predicate = criteriaBuilder.like(root.get("status"), "%" + status + "%");
+            predicates.add(predicate);
+        }
+
+        query.where(predicates.toArray(new Predicate[0]));
+
+        return entityManager.createQuery(query).getResultList();
+    }
 
 }

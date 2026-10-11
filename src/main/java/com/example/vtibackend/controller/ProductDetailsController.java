@@ -18,15 +18,15 @@ import java.util.List;
 public class ProductDetailsController {
 
     @Autowired
-    ProductDetailsServiceImpl productDetailsServiceImpl;
+    ProductDetailsService productDetailsService;
 
     @GetMapping("/product-detail")
     public ResponseEntity<List<ProductDetails>> getAll(){
-        return ResponseEntity.ok(productDetailsServiceImpl.getAll());
+        return ResponseEntity.ok(productDetailsService.getAll());
     }
 
     @PostMapping("/product-detail")
     public ResponseEntity<ProductDetails> create(@RequestBody CreatProductDetailReq request){
-        return ResponseEntity.ok(productDetailsServiceImpl.createDetail(request));
+        return ResponseEntity.ok(productDetailsService.createDetail(request));
     }
 }

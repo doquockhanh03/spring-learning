@@ -3,17 +3,18 @@ package com.example.vtibackend.controller;
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.service.ProductOfferingsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 public class ProductOfferingsController {
 
-    @Autowired
-    private ProductOfferingsService productOfferingService;
+    private final ProductOfferingsService productOfferingService;
 
     @GetMapping("/product")
     public ResponseEntity<ProductOfferings> getById(Long id){

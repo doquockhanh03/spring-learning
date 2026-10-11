@@ -9,6 +9,7 @@ import com.example.vtibackend.repository.ProductOfferingDetailRepo;
 import com.example.vtibackend.repository.ProductOfferingsRepo;
 import com.example.vtibackend.service.ProductDetailsService;
 import com.example.vtibackend.service.ProductOfferingDetailService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class ProductOfferingDetailServiceImpl implements ProductOfferingDetailService {
 
-    @Autowired
-    private ProductOfferingDetailRepo productOfferingDetailRepo;
+    private final  ProductOfferingDetailRepo productOfferingDetailRepo;
 
-    @Autowired
-    private ProductOfferingsRepo productOfferingsRepo;
+    private final ProductOfferingsRepo productOfferingsRepo;
 
-    @Autowired
-    private ProductDetailsRepo productDetailsRepo;
+    private final ProductDetailsRepo productDetailsRepo;
 
     @Override
     public ProductOfferings assignProductDetail(AssignProductDetailReq request) {

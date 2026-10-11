@@ -4,16 +4,18 @@ import com.example.vtibackend.dto.request.CreatProductDetailReq;
 import com.example.vtibackend.entity.ProductDetails;
 import com.example.vtibackend.repository.ProductDetailsRepo;
 import com.example.vtibackend.service.ProductDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductDetailsServiceImpl implements ProductDetailsService {
 
-    @Autowired
-    ProductDetailsRepo productDetailsRepo;
+
+    private final ProductDetailsRepo productDetailsRepo;
 
     @Override
     public List<ProductDetails> getAll() {

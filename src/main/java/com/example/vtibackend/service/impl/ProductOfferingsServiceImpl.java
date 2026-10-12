@@ -10,8 +10,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -59,6 +59,7 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
     }
 
     @Override
+    @Transactional
     public ProductOfferings createProduct(ProductOfferings productOfferings) {
         if(productOfferings.getId() != null){
             throw new RuntimeException("Khong duoc truyen id vao!");
@@ -67,6 +68,7 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
     }
 
     @Override
+    @Transactional
     public ProductOfferings updateProduct(Long id, ProductOfferings productOfferings) {
             Optional<ProductOfferings> productExist = productOfferingRepo.findById(id);
             if (productExist.isEmpty()) {
@@ -82,6 +84,7 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
     }
 
     @Override
+    @Transactional
     public ProductOfferings createProductDto(CreateProductOfferingReq request) {
         if(request.getName().isEmpty() || request.getColor().isEmpty() || request.getPrice() == null){
             throw new RuntimeException("Khong duoc de trong du lieu!");
@@ -97,6 +100,7 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
         return productOfferingRepo.save(productOfferings);
     }
 
+    @Override
     public List<ProductOfferings> filter(String name, Long minPrice, Long maxPrice, String color, String status) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<ProductOfferings> query = criteriaBuilder.createQuery(ProductOfferings.class);

@@ -9,6 +9,7 @@ import com.example.vtibackend.repository.ProductOfferingDetailRepo;
 import com.example.vtibackend.repository.ProductOfferingsRepo;
 import com.example.vtibackend.service.ProductDetailsService;
 import com.example.vtibackend.service.ProductOfferingDetailService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ public class ProductOfferingDetailServiceImpl implements ProductOfferingDetailSe
     private final ProductDetailsRepo productDetailsRepo;
 
     @Override
+    @Transactional
     public ProductOfferings assignProductDetail(AssignProductDetailReq request) {
         if(request.getProductOfferingIds() == null){
             throw new RuntimeException("ProductOffering id is null");

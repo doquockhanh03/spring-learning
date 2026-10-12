@@ -4,6 +4,7 @@ import com.example.vtibackend.dto.request.CreatProductDetailReq;
 import com.example.vtibackend.entity.ProductDetails;
 import com.example.vtibackend.repository.ProductDetailsRepo;
 import com.example.vtibackend.service.ProductDetailsService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class ProductDetailsServiceImpl implements ProductDetailsService {
     }
 
     @Override
+    @Transactional
     public ProductDetails createDetail(CreatProductDetailReq request) {
         if(request.getWeight() == null || request.getBrand().isEmpty() || request.getFeature().isEmpty() ||
         request.getImage().isEmpty() || request.getPower().isEmpty() || request.getVideo().isEmpty()){

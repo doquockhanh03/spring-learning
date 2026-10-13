@@ -71,4 +71,10 @@ public class ProductOfferingsController {
         List<ProductOfferings> productOfferings = productOfferingService.filter(name, minPrice, maxPrice, color, status);
         return ResponseEntity.ok(productOfferings);
     }
+
+    @GetMapping("/page")
+    public ResponseEntity<List<ProductOfferings>> getByPage(@RequestParam(name = "pageSize", required = false) Integer pageSize,
+                                                            @RequestParam(name = "pageNumber", required = false) Integer pageNumber){
+        return ResponseEntity.ok(productOfferingService.getByPage(pageSize, pageNumber));
+    }
 }

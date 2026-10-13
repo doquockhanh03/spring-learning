@@ -12,8 +12,12 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -137,6 +141,16 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
         query.where(predicates.toArray(new Predicate[0]));
 
         return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<ProductOfferings> getByPage(Integer pageSize, Integer pageNumber) {
+        //SELECT * FROM ProductOfferings LIMIT pageSize OFFSET (pageSize * pageNumber)
+        PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+
+        Page<ProductOfferings> productOfferings = productOfferingRepo.findAll(pageRequest);
+        return productOfferings.getContent();
+       /// return productOfferingRepo.getByPage(pageSize, pageSize * (pageNumber - 1));
     }
 
 }

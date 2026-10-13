@@ -15,4 +15,7 @@ public interface ProductOfferingsRepo extends JpaRepository<ProductOfferings, Lo
     @Query(value = "Select po from ProductOfferings po\n" +
             "where po.id in (select pod.productOfferings.id from ProductOfferingDetail pod where pod.productDetails.id = :id )")
     List<ProductOfferings> findByDetailId(Long id);
+
+    @Query(value = "select * from product_offerings order by id limit :pageSize offset :offSet", nativeQuery = true)
+    List<ProductOfferings> getByPage(Integer pageSize, Integer offSet);
 }

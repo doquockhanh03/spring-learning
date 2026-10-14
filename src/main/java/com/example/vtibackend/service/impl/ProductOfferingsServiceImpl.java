@@ -14,10 +14,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable; // THÊM DÒNG NÀY
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -144,12 +144,11 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
     }
 
     @Override
-    public List<ProductOfferings> getByPage(Integer pageSize, Integer pageNumber) {
-        //SELECT * FROM ProductOfferings LIMIT pageSize OFFSET (pageSize * pageNumber)
-        PageRequest pageRequest = PageRequest.of(pageNumber,pageSize);
+    public Page<ProductOfferings> getByPage(Integer pageSize, Integer pageNumber) {
+        //SELECT * FROM ProductOfferings ODER BY ID ASC LIMIT pageSize OFFSET (pageSize * pageNumber)
+        Pageable pageable = PageRequest.of(pageNumber,pageSize, Sort.by("id").ascending());
 
-        Page<ProductOfferings> productOfferings = productOfferingRepo.findAll(pageRequest);
-        return productOfferings.getContent();
+        return productOfferingRepo.findAll(pageable);
        /// return productOfferingRepo.getByPage(pageSize, pageSize * (pageNumber - 1));
     }
 

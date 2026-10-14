@@ -3,7 +3,7 @@ package com.example.vtibackend.service;
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
 import com.example.vtibackend.entity.ProductOfferingDetail;
 import com.example.vtibackend.entity.ProductOfferings;
-import org.hibernate.query.Page;
+import org.springframework.data.domain.Page; // THÊM DÒNG NÀY
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -27,5 +27,5 @@ public interface ProductOfferingsService {
 
     List<ProductOfferings> filter(String name, Long minPrice, Long maxPrice, String color, String status);
 
-    List<ProductOfferings> getByPage(Integer pageSize, Integer pageNumber);
+    Page<ProductOfferings> getByPage(Integer pageSize, Integer pageNumber);
 }

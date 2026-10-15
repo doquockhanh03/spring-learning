@@ -1,6 +1,7 @@
 package com.example.vtibackend.service;
 
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
+import com.example.vtibackend.dto.response.ProductOfferingRes;
 import com.example.vtibackend.entity.ProductOfferingDetail;
 import com.example.vtibackend.entity.ProductOfferings;
 import org.springframework.data.domain.Page; // THÊM DÒNG NÀY
@@ -11,7 +12,7 @@ import java.util.List;
 public interface ProductOfferingsService {
     ProductOfferings getById(Long id);
 
-    List<ProductOfferings> getAll();
+    List<ProductOfferingRes> getAll();
 
     List<ProductOfferings> getByName(String name);
 

@@ -1,7 +1,9 @@
 package com.example.vtibackend.service.impl;
 
 import com.example.vtibackend.common.Status;
+import com.example.vtibackend.config.ModelMapperConfig;
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
+import com.example.vtibackend.dto.response.ProductOfferingRes;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.repository.ProductOfferingsRepo;
 import com.example.vtibackend.service.ProductOfferingsService;
@@ -12,10 +14,10 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable; // THÊM DÒNG NÀY
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
 
     private final EntityManager entityManager;
 
+    private final ModelMapperConfig modelMapperConfig;
+
     @Override
     public ProductOfferings getById(Long id) {
         Optional<ProductOfferings> product = productOfferingRepo.findById(id);
@@ -40,8 +44,26 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
     }
 
     @Override
-    public List<ProductOfferings> getAll() {
-        return productOfferingRepo.findAll();
+    public List<ProductOfferingRes> getAll() {
+        List<ProductOfferings> productOfferings = productOfferingRepo.findAll();
+
+
+        List<ProductOfferingRes> response = new ArrayList<>();
+
+        for(int i = 0; i < productOfferings.size(); i++){
+            //ModelMapper se thay the doan duoc comment nay.
+//            ProductOfferingRes productOfferingRes = new ProductOfferingRes();
+//
+//            productOfferingRes.setName(productOfferings.get(i).getName());
+//            productOfferingRes.setColor(productOfferings.get(i).getColor());
+//            productOfferingRes.setPrice(productOfferings.get(i).getPrice());
+
+            ProductOfferingRes productOfferingRes = modelMapperConfig.createModelMapperBean().map(productOfferings.get(i), ProductOfferingRes.class);
+
+            response.add(productOfferingRes);
+        }
+
+        return response;
     }
 
     @Override

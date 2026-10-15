@@ -1,6 +1,7 @@
 package com.example.vtibackend.controller;
 
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
+import com.example.vtibackend.dto.response.ProductOfferingRes;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.service.ProductOfferingsService;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class ProductOfferingsController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductOfferings>> getAllProductOfferings(){
+    public ResponseEntity<List<ProductOfferingRes>> getAllProductOfferings(){
         return ResponseEntity.ok(productOfferingService.getAll());
     }
 

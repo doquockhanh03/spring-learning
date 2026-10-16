@@ -1,6 +1,7 @@
 package com.example.vtibackend.controller;
 
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
+import com.example.vtibackend.dto.request.ProductOfferingFilterReq;
 import com.example.vtibackend.dto.response.ProductOfferingRes;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.service.ProductOfferingsService;
@@ -72,6 +73,15 @@ public class ProductOfferingsController {
                                                          @RequestParam(name = "status", required = false) String status){
 
         List<ProductOfferings> productOfferings = productOfferingService.filter(name, minPrice, maxPrice, color, status);
+        return ResponseEntity.ok(productOfferings);
+    }
+
+    @GetMapping("/filter1")
+    public ResponseEntity<List<ProductOfferings>> filter1(ProductOfferingFilterReq productOfferingFilterReq){
+
+        List<ProductOfferings> productOfferings = productOfferingService.filter(productOfferingFilterReq.getName(),
+                productOfferingFilterReq.getMinPrice(), productOfferingFilterReq.getMaxPrice(), productOfferingFilterReq.getColor(),
+                productOfferingFilterReq.getStatus());
         return ResponseEntity.ok(productOfferings);
     }
 

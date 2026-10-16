@@ -2,11 +2,12 @@ package com.example.vtibackend.repository;
 
 import com.example.vtibackend.entity.ProductOfferings;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ProductOfferingsRepo extends JpaRepository<ProductOfferings, Long> {
+public interface ProductOfferingsRepo extends JpaRepository<ProductOfferings, Long>, JpaSpecificationExecutor<ProductOfferings> {
 
     List<ProductOfferings> findByName(String name);
 

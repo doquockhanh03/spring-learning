@@ -1,8 +1,10 @@
 package com.example.vtibackend.service.impl;
 
+import com.example.vtibackend.Spec.ProductOfferingSpec;
 import com.example.vtibackend.common.Status;
 import com.example.vtibackend.config.ModelMapperConfig;
 import com.example.vtibackend.dto.request.CreateProductOfferingReq;
+import com.example.vtibackend.dto.request.ProductOfferingFilterReq;
 import com.example.vtibackend.dto.response.ProductOfferingRes;
 import com.example.vtibackend.entity.ProductOfferings;
 import com.example.vtibackend.repository.ProductOfferingsRepo;
@@ -18,8 +20,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable; // THÊM DÒNG NÀY
+
+import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -163,6 +168,16 @@ public class ProductOfferingsServiceImpl implements ProductOfferingsService {
         query.where(predicates.toArray(new Predicate[0]));
 
         return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
+    public List<ProductOfferings> filter1(ProductOfferingFilterReq productOfferingFilterReq) {
+        Specification<ProductOfferings> specification = Specification.where((Specification<ProductOfferings>)null);
+
+        if(productOfferingFilterReq.getName() != null && !productOfferingFilterReq.getName().isEmpty()){
+            specification = specification.and(ProductOfferingSpec.likeName(productOfferingFilterReq.getName()));
+        }
+        return productOfferingRepo.findAll(specification);
     }
 
     @Override
